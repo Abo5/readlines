@@ -21,8 +21,13 @@ jobs:
       with:
         ruby-version: 2.7.8
 
+    - name: Check Ruby and gem versions
+      run: |
+        ruby --version
+        gem --version
+
     - name: Install Bundler
-      run: gem install bundler
+      run: gem install bundler --no-document --verbose
 
     - name: Check Bundler version
       run: bundler --version
