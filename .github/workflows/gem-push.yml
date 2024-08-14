@@ -17,9 +17,15 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Set up Ruby 2.7.8
-      uses: ruby/setup-ruby@v1  # استخدام أحدث إصدار من ruby/setup-ruby
+      uses: ruby/setup-ruby@v1
       with:
-        ruby-version: 2.7.8  # أو يمكنك استخدام 3.0.7 أو أي إصدار آخر متاح
+        ruby-version: 2.7.8
+
+    - name: Install Bundler
+      run: gem install bundler
+
+    - name: Check Bundler version
+      run: bundler --version
 
     - name: Publish to GPR
       run: |
