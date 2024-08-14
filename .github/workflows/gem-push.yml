@@ -17,10 +17,12 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Set up Ruby 2.7.8
+    - name: Set up Ruby
       uses: ruby/setup-ruby@v1
       with:
-        ruby-version: 2.7.8
+        ruby-version: 3.0.x
+        rubygems: '3.2.3' # Example of locking the RubyGems version
+
 
     - name: Check Ruby version
       run: ruby --version
