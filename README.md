@@ -1,3 +1,4 @@
+[![Gem Version](https://badge.fury.io/rb/readlines.svg)](https://badge.fury.io/rb/readlines)
 # Readlines Library
 
 Readlines is a powerful and versatile Ruby library for file manipulation and processing. It provides a wide range of functionality to read, analyze, and modify the contents of text files efficiently.
