@@ -339,7 +339,6 @@ The Readlines library is open-source and released under the [MIT License](https:
 If you have any questions, suggestions, or feedback regarding the Readlines library, please feel free to contact the maintainer:
 
 - Name: Maven
-- Email: qppn@hotmail.com
 - GitHub: [Maven's GitHub](https://github.com/abo5)
 
 We appreciate your interest in the Readlines library and look forward to your contributions and feedback!

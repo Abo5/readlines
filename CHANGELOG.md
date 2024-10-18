@@ -34,3 +34,8 @@
 - Encrypt the file contents using a key.
 - Decrypt the encrypted file contents using a key.
 - Get the file size in different units (bytes, kilobytes, megabytes, gigabytes).
+
+
+-----
+
+- Fixing bugs

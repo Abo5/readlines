@@ -1,6 +1,6 @@
 Gem::Specification.new do |spec|
     spec.name          = "readlines"
-    spec.version       = "1.0"
+    spec.version       = "1.4"
     spec.authors       = ['Maven']
     spec.email         = ['qppn@hotmail.com']
 
@@ -9,9 +9,8 @@ Gem::Specification.new do |spec|
     spec.homepage      = "https://github.com/Abo5/readlines"
     spec.license       = "MIT"
 
-    spec.files         = Dir.chdir(File.expand_path('..', __FILE__)) do
-        `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
-    end
+    spec.files = Dir["lib/**/*.rb", "README.md", "LICENSE.txt"]
+
     spec.bindir        = "exe"
     spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
     spec.require_paths = ["lib"]
