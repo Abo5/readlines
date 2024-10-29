@@ -38,9 +38,4 @@ coverage/
 # Other common ignore patterns
 .DS_Store
 Thumbs.db
-test_file-copy.json
-read.rb
-proxy.txt
-main.rb
-info_spec.rb
-create.rb
+
