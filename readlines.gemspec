@@ -1,8 +1,7 @@
 Gem::Specification.new do |spec|
     spec.name          = "readlines"
-    spec.version       = "1.4"
+    spec.version       = "1.5"
     spec.authors       = ['Maven']
-    spec.email         = ['qppn@hotmail.com']
 
     spec.summary       = "A Ruby library for advanced text file manipulation and processing."
     spec.description   = "Readlines is a Ruby library offering advanced tools for reading, writing, and manipulating text files. It supports searching, replacing, sorting, splitting, merging, handling CSVs, encryption, and more. Perfect for developers needing efficient and complex file operations."
