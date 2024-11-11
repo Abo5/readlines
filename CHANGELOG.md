@@ -1,3 +1,7 @@
+# CHANGELOG
+
+## [1.3.0] - 2024-05-11
+### Added
 - Read the entire file content or specific parts of it.
 - Search for specific values in the file and display matching line numbers.
 - Count the number of lines in the file based on a keyword or delimiter.
@@ -35,7 +39,11 @@
 - Decrypt the encrypted file contents using a key.
 - Get the file size in different units (bytes, kilobytes, megabytes, gigabytes).
 
+## [1.6.0] - 2024-11-11
+### Added
+- Added `filter` feature to support line operations for delete and replace based on matching location (`:start`, `:body`, or `:end`).
+- Implemented `apply_filter` to handle filtering logic dynamically for each line, allowing deletion or replacement of lines that match specific criteria.
+- Modified `initialize` to accept only the filename instead of the full path, with logic to set the default path to the current directory.
 
------
-
-- Fixing bugs
+### Fixed
+- Fixed an issue with `File.absolute_path?` and `File.join` to ensure these methods are called from the global scope (`::File`).

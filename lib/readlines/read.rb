@@ -13,6 +13,7 @@ require_relative 'readlines/replace'
 require_relative 'readlines/search'
 require_relative 'readlines/sort'
 require_relative 'readlines/split'
+require_relative 'readlines/filter'
 require 'fileutils'
 require 'json'
 
@@ -24,6 +25,7 @@ module Readlines
     include Readlines::Search
     include Readlines::Replace
     include Readlines::File
+    include Readlines::Filter
     include Readlines::Merge
     include Readlines::Info
     include Readlines::Pattern
@@ -33,12 +35,17 @@ module Readlines
     attr_reader :file_path
 
     def initialize(file_path, count: nil, split: nil)
+      file_path = ::File.join(Dir.pwd, file_path) unless ::File.absolute_path?(file_path)
+  
+      raise Readlines::Error::MissingFilePathError, 'File not found at provided path' unless ::File.exist?(file_path)
       raise Readlines::Error::MissingFilePathError, 'You should provide a file path, e.g., "/path/to/file.txt"' if file_path.nil? || file_path.empty?
-
+    
+    
       @file_path = file_path
       @count_keyword = count
       @split_delimiter = split
     end
+    
 
     include Readlines::Count
     include Readlines::Delete
@@ -46,12 +53,14 @@ module Readlines
     include Readlines::Search
     include Readlines::Replace
     include Readlines::File
+    include Readlines::Filter
     include Readlines::Merge
     include Readlines::Info
     include Readlines::Pattern
     include Readlines::Sort
     include Readlines::Split
     include Readlines::Content
+    include Readlines::Filter
 
     # Count operations
     def line_count
@@ -220,6 +229,20 @@ module Readlines
       raise Readlines::Error::NotFoundError, "File not found: #{@file_path}" unless ::File.exist?(@file_path)
       file_statistics_now()
     end
+    
+    ## Replace and Delete lines from the file
+    def filter(value, query, operation, replacement = nil)
+      raise Readlines::Error::NotFoundError, "File not found: #{@file_path}" unless ::File.exist?(@file_path)
+
+      processed_lines = []
+      ::File.foreach(@file_path) do |line|
+        result = apply_filter(line, value, query, operation, replacement)
+        processed_lines << result if result 
+      end
+
+      ::File.write(@file_path, processed_lines.join)
+      processed_lines
+    end
 
     # Pattern operations
     def pattern_exists?(pattern)
@@ -259,5 +282,14 @@ module Readlines
       raise Readlines::Error::NotFoundError, "File not found: #{encrypted_file_path}" unless ::File.exist?(encrypted_file_path)
       decrypt_content_now(key, encrypted_file_path)
     end
+  end
+
+  def filter(file_path, value, query, operation, replacement = nil)
+    processed_lines = []
+    File.foreach(file_path) do |line|
+      result = filter(line, value, query, operation, replacement)
+      processed_lines << result if result # Only add if result is not nil (for delete operation)
+    end
+    processed_lines
   end
 end

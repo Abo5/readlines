@@ -1,5 +1,6 @@
-require_relative '../lib/read'
+require_relative '../lib/readlines'
 require 'fileutils'
+
 
 RSpec.describe Readlines::ReadDuc do
   let(:file_path) { 'spec/test_file.txt' }
@@ -66,6 +67,7 @@ RSpec.describe Readlines::ReadDuc do
     it 'deletes specific lines from the file' do
       read_duc.delete_lines_now([2, 4])
       expect(File.read(file_path)).not_to include("Line with special characters: @$#%!")
+      expect(File.read(file_path)).not_to include("Another line with text.")
     end
   end
 
@@ -88,16 +90,60 @@ RSpec.describe Readlines::ReadDuc do
   describe '#convert_to_array' do
     it 'converts the file to an array of lines' do
       expect(read_duc.convert_to_array_now).to eq([
-                                                    "Hello, this is a test file.",
-                                                    "Line with special characters: @$#%!",
-                                                    "1234567890",
-                                                    "Another line with text.",
-                                                    "CSV line, 1,2,3,4,5",
-                                                    "CSV line, 10,20,30,40,50",
-                                                    "CSV line, 100,200,300,400,500",
-                                                    "Line with repeated words: test test test",
-                                                    "End of the file."
-                                                  ])
+        "Hello, this is a test file.",
+        "Line with special characters: @$#%!",
+        "1234567890",
+        "Another line with text.",
+        "CSV line, 1,2,3,4,5",
+        "CSV line, 10,20,30,40,50",
+        "CSV line, 100,200,300,400,500",
+        "Line with repeated words: test test test",
+        "End of the file."
+      ])
+    end
+  end
+
+  describe '#filter' do
+    context 'with :start and :replace operation' do
+      it 'replaces lines that start with a specific value' do
+        read_duc.filter("Hello", :start, :replace, "Hi")
+        expect(File.read(file_path)).to include("Hi, this is a test file.")
+      end
+    end
+
+    context 'with :body and :replace operation' do
+      it 'replaces lines containing a specific value' do
+        read_duc.filter("special", :body, :replace, "unique")
+        expect(File.read(file_path)).to include("Line with unique characters: @$#%!")
+      end
+    end
+
+    context 'with :end and :replace operation' do
+      it 'replaces lines that end with a specific value' do
+        read_duc.filter("file.", :end, :replace, "document.")
+        expect(File.read(file_path)).to include("End of the document.")
+      end
+    end
+
+    context 'with :start and :delete operation' do
+      it 'deletes lines that start with a specific value' do
+        read_duc.filter("Hello", :start, :delete)
+        expect(File.read(file_path)).not_to include("Hello, this is a test file.")
+      end
+    end
+
+    context 'with :body and :delete operation' do
+      it 'deletes lines that contain a specific value' do
+        read_duc.filter("special", :body, :delete)
+        expect(File.read(file_path)).not_to include("Line with special characters: @$#%!")
+      end
+    end
+
+    context 'with :end and :delete operation' do
+      it 'deletes lines that end with a specific value' do
+        read_duc.filter("file.", :end, :delete)
+        expect(File.read(file_path)).not_to include("End of the file.")
+      end
     end
   end
 end
