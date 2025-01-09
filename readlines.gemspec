@@ -1,6 +1,6 @@
 Gem::Specification.new do |spec|
     spec.name          = "readlines"
-    spec.version       = "1.6"
+    spec.version       = "1.7"
     spec.authors       = ['Maven']
 
     spec.summary       = "A Ruby library for advanced text file manipulation and processing."
