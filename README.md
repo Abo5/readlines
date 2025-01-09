@@ -52,19 +52,31 @@ Run `bundle install` to install the library and its dependencies.
 Start by requiring `readlines` in your Ruby script:
 
 ```ruby
-require 'readlines'
+require 'readlines/read'
 ```
 
-Create an instance of the `Read` class with the filename (or full path):
+Create an instance of the `Readlines::ReadDuc` class with the filename (or full path):
 
 ```ruby
 file_name = 'file.txt'
-read = Read.new(file_name)
+read = Readlines::ReadDuc.new(file_name)
 ```
 
 ### Examples
 
+#### Search for a specific word and count occurrences
+
+```ruby
+# Search for the word "example" in the file
+read = Readlines::ReadDuc.new('data.txt')
+results = read.search_about('example', show_lines: true)
+
+# Display the number of occurrences
+puts "Number of occurrences: #{results.count}"
+```
+
 #### Basic Operations
+
 ```ruby
 # Read the entire file content
 content = read.read_lines
@@ -72,11 +84,8 @@ puts content
 ```
 
 #### Counting Operations
-```ruby
-# Count lines containing a specific keyword
-count = read.line_count(count: 'example')
-puts count
 
+```ruby
 # Count characters in the file or a specific line
 total_characters = read.character_count
 puts total_characters
@@ -90,33 +99,8 @@ line_words = read.word_count(line_specific: 3)
 puts line_words
 ```
 
-#### Search Operations
-```ruby
-# Search for a specific value and show line numbers
-result = read.search_about('example', show_lines: true)
-puts result
-
-# Search for multiple patterns and count occurrences
-patterns = [/example/, /test/]
-result = read.search_multiple_patterns(patterns)
-puts result
-
-# Check if a pattern exists
-pattern_exists = read.pattern_exists?(/example/)
-puts pattern_exists
-
-# Search for a pattern within a range of lines
-matched_lines = read.search_in_range(5, 10, /example/)
-puts matched_lines
-
-# Logical pattern search (AND/OR operators)
-and_results = read.search_logical_patterns([/example/, /test/], 'AND')
-puts and_results
-or_results = read.search_logical_patterns([/example/, /test/], 'OR')
-puts or_results
-```
-
 #### Replacement Operations
+
 ```ruby
 # Replace specific patterns in the file
 updated_content = read.replace(/example/, 'new_example')
@@ -137,6 +121,7 @@ puts updated_content
 ```
 
 #### Deletion Operations
+
 ```ruby
 # Delete empty lines from the file
 updated_content = read.delete_empty_lines
@@ -157,20 +142,10 @@ puts unique_content
 # Delete specific columns in a CSV file
 updated_csv = read.delete_csv_columns([1, 3])
 puts updated_csv
-
-# Filter lines based on criteria
-# Replace lines starting with "hello" with "hi"
-read.filter("hello", :start, :replace, "hi")
-read.filter("world", :body, :replace, "guys")
-read.filter("123", :end, :replace, "456")
-
-# Delete lines containing "unwanted_text" from start or end or anywhere using `:start` or `:end` or `:body`
-read.filter("unwanted_text", :start, :delete)
-read.filter("unwanted_text", :body, :delete)
-read.filter("unwanted_text", :end, :delete)
 ```
 
 #### File Splitting and Merging
+
 ```ruby
 # Split the file into 3 parts
 read.split_file(3)
@@ -194,6 +169,7 @@ puts merged_file_with_separator
 ```
 
 #### Encoding and Format Conversion
+
 ```ruby
 # Convert encoding
 read.convert_encoding('UTF-8', 'ISO-8859-1')
@@ -203,60 +179,7 @@ converted_csv = read.convert_to_format('csv')
 puts converted_csv
 ```
 
-#### Extracting and Validating Content
-```ruby
-# Extract specific patterns (e.g., email addresses)
-patterns = [/email:\s*\S+/, /phone:\s*\S+/]
-extracted_data = read.extract_patterns(patterns)
-puts extracted_data
-
-# Validate content with a set of rules
-rules = [/^[A-Z]/, /\b\d{3}-\d{3}-\d{4}\b/]
-is_valid = read.validate_content(rules)
-puts is_valid
-
-# Check for spelling errors using a dictionary
-dictionary = ['example', 'pattern', 'file']
-misspelled_words = read.check_spelling(dictionary)
-puts misspelled_words
-```
-
-#### File Size and Statistics
-```ruby
-# Get file size in different units
-file_size_bytes = read.file_size
-puts file_size_bytes
-file_size_kb = read.file_size(unit: :kilobytes)
-puts file_size_kb
-file_size_mb = read.file_size(unit: :megabytes)
-puts file_size_mb
-file_size_gb = read.file_size(unit: :gigabytes)
-puts file_size_gb
-
-# Get statistics about the file
-file_stats = read.file_statistics
-puts file_stats
-```
-
-#### Encryption and Decryption
-```ruby
-# Encrypt content using a key
-encrypted_content = read.encrypt_content(5)
-puts encrypted_content
-
-# Decrypt the content using the same key
-decrypted_content = read.decrypt_content(5, '/path/to/encrypted_file.txt')
-puts decrypted_content
-```
-
-#### Reverse and Additional Operations
-```ruby
-# Reverse the order of file contents
-reversed_content = read.reverse_content
-puts reversed_content
-```
-
-## Error Handling
+#### Error Handling
 
 The Readlines library provides custom error classes for handling specific exceptions:
 
